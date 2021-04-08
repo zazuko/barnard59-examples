@@ -1,4 +1,4 @@
-## barnard59-tests
+## barnard59-examples
 
 Integration tests for barnard59 universe
 
@@ -8,16 +8,13 @@ To run the integration tests, run:
 Inttegration tests cover the following operations:
 * `node:fs#createReadStream`
 * `node:fs#createWriteStream`
-
 * `node:barnard59-formats#ntriples.serialize`
 * `node:barnard59-formats#csvw.parse`
 * `node:barnard59-formats#jsonld.parse`
 * `node:barnard59-formats#n3.parse`
-
 * `node:barnard59-base#concat.object`
 * `node:barnard59-base#glob`
 * `node:barnard59-base#filter`
-
 * `node:barnard59-core#forEach`
 
 
