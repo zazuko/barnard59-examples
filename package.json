@@ -24,7 +24,7 @@
     "node": ">= 14.0.0"
   },
   "scripts": {
-    "test": "./test/integration/run.sh"
+    "test": "./run.sh"
   },
   "repository": {
     "type": "git",
