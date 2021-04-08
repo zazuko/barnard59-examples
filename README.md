@@ -15,7 +15,7 @@ Inttegration tests cover the following operations:
 * `node:barnard59-base#concat.object`
 * `node:barnard59-base#glob`
 * `node:barnard59-base#filter`
-* `node:barnard59-core#forEach`
+* `node:barnard59-base#forEach`
 
 
 ### Not tested
