@@ -1,0 +1,84 @@
+@base <http://ld.admin.ch/pipeline/metadata/> .
+@prefix code: <https://code.described.at/> .
+@prefix p: <https://pipeline.described.at/> .
+
+_:variables p:variable
+  [ a p:Variable; p:name "inputDirMetadata"; p:value "test/integration/02/input/ontologies/*.ttl" ] ,
+  [ a p:Variable; p:name "inputDirUnits"; p:value "test/integration/02/input/units/*.ttl" ] .
+
+<mainCreateFile> a p:Pipeline, p:Readable;
+  p:variables _:variables ;
+  p:steps [
+    p:stepList (<mergeInputsStep> <serialize>)
+  ].
+
+<mergeInputsStep> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-base/concat.js#object> ;
+    a code:EcmaScriptModule ] ;
+  code:arguments (<transformUnitPipeline> <mergeInputsPipeline>) .
+
+<mergeInputsPipeline> a p:Pipeline, p:ReadableObjectMode ;
+  p:steps [
+    p:stepList
+    ( <readDirMetadata> <transformStep> )
+  ].
+
+<readDirMetadata> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-base/glob.js#default> ;
+    a code:EcmaScriptModule
+  ];
+  code:arguments [
+    code:name  "pattern" ;
+    code:value "inputDirMetadata"^^p:VariableName
+  ] .
+
+<readDirUnits> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-base/glob.js#default> ;
+    a code:EcmaScriptModule
+  ];
+  code:arguments [
+    code:name  "pattern" ;
+    code:value "inputDirUnits"^^p:VariableName
+  ] .
+
+
+<transformStep> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-base/forEach.js#default> ;
+    a code:EcmaScriptModule
+  ] ;
+  code:arguments ( <transformPipeline> "file" ) .
+
+<transformPipeline> a p:Pipeline, p:ReadableObjectMode ;
+  p:steps [
+    p:stepList (<readFile> <parse>)
+  ].
+
+<readFile> a p:Step ;
+  code:implementedBy [
+    code:link <node:fs#createReadStream> ;
+    a code:EcmaScriptModule ] ;
+  code:arguments  ("${file}"^^code:EcmaScriptTemplateLiteral) .
+
+
+<parse> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-formats/n3.js#parse> ;
+    a code:EcmaScriptModule
+  ] .
+
+
+
+<transformUnitPipeline> a p:Pipeline, p:ReadableObjectMode ;
+  p:steps [
+    p:stepList (<readDirUnits> <transformStep> )
+  ].
+
+<serialize> a p:Step;
+  code:implementedBy [
+    code:link <node:barnard59-formats/ntriples.js#serialize> ;
+    a code:EcmaScriptModule
+  ].

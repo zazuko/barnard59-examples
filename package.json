@@ -1,0 +1,39 @@
+{
+  "name": "barnard59-tests",
+  "version": "1.0.0",
+  "description": "Integration tests for barnard59",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "type": "module",
+  "dependencies": {
+    "@rdfjs/namespace": "^1.1.0",
+    "@tpluscode/rdf-ns-builders": "^0.4.2",
+    "barnard59": "github:zazuko/barnard59#next",
+    "barnard59-base": "github:zazuko/barnard59-base#next",
+    "barnard59-core": "github:zazuko/barnard59-core#next",
+    "barnard59-formats": "github:zazuko/barnard59-formats#next",
+    "clownface": "^1.2.0",
+    "fs": "0.0.1-security",
+    "rdf-utils-fs": "^2.1.0",
+    "standard": "^16.0.3"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 14.0.0"
+  },
+  "scripts": {
+    "test": "./test/integration/run.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zazuko/barnard59-tests.git"
+  },
+  "author": "Magdalena Surowka <magdalena@surowka.ch>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zazuko/barnard59-tests/issues"
+  },
+  "homepage": "https://github.com/zazuko/barnard59-tests#readme"
+}
