@@ -15,7 +15,6 @@
     "barnard59-core": "github:zazuko/barnard59-core#next",
     "barnard59-formats": "github:zazuko/barnard59-formats#next",
     "clownface": "^1.2.0",
-    "fs": "0.0.1-security",
     "rdf-utils-fs": "^2.1.0",
     "standard": "^16.0.3"
   },
