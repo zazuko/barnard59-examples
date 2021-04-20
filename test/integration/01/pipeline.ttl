@@ -1,0 +1,69 @@
+@base <http://your-domain.ld.admin.ch/pipeline/> .
+@prefix code: <https://code.described.at/> .
+@prefix p: <https://pipeline.described.at/> .
+
+_:dataset-vars p:variable
+  [ a p:Variable; p:name "inputFile"; p:value "test/integration/01/input/municipalities.ttl" ] .
+
+_:metadata-vars p:variable
+  [ a p:Variable; p:name "inputFile"; p:value "test/integration/01/input/metadata.ttl" ] .
+
+
+<mainCreateFile> a p:Pipeline, p:Readable ;
+  p:steps [
+    p:stepList (<concatStreams><serialize>)
+  ].
+
+<concatStreams> a p:Step;
+  code:implementedBy [ a code:EcmaScriptModule;
+    code:link <node:barnard59-base/concat.js#object>
+  ];
+  code:arguments (<getMunicipalities><getMetadata>).
+
+<serialize> a p:Step;
+  code:implementedBy [
+    code:link <node:barnard59-formats/ntriples.js#serialize> ;
+    a code:EcmaScriptModule
+  ].
+
+<getMunicipalities> a p:Pipeline, p:ReadableObjectMode;
+  p:variables _:dataset-vars ;
+  p:steps [
+    p:stepList (<readFile><parseTurtle>)
+  ].
+
+<getMetadata> a p:Pipeline, p:ReadableObjectMode;
+  p:variables _:metadata-vars ;
+  p:steps [
+    p:stepList (<readFile><parseTurtle>)
+  ].
+
+<readFile> a p:Step;
+  code:implementedBy [
+    code:link <node:fs#createReadStream>;
+    a code:EcmaScriptModule
+  ];
+  code:arguments ("inputFile"^^p:VariableName).
+
+
+<parseTurtle> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-formats/n3.js#parse> ;
+    a code:EcmaScriptModule
+  ] .
+
+<metadataTimestamp> a p:Step ;
+  code:implementedBy [
+    code:link <node:barnard59-base/map.js> ;
+    a code:EcmaScriptModule
+  ];
+  code:arguments ( """quad => {
+      const rdf = require('rdf-ext')
+      const luxon = require('luxon')
+      if (quad.predicate.value ===  'http://schema.org/dateModified') {
+        const object = rdf.literal(luxon.DateTime.local().toISODate(), rdf.namedNode('http://www.w3.org/2001/XMLSchema#date'))
+        return rdf.quad(quad.subject, quad.predicate, object)
+      }
+
+      return quad
+    }"""^^code:EcmaScriptModule) .
