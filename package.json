@@ -14,7 +14,9 @@
     "barnard59-base": "github:zazuko/barnard59-base#next",
     "barnard59-core": "github:zazuko/barnard59-core#next",
     "barnard59-formats": "github:zazuko/barnard59-formats#next",
+    "barnard59-validate-shacl": "https://github.com/zazuko/barnard59-validate-shacl",
     "clownface": "^1.2.0",
+    "rdf-stream-to-dataset-stream": "^1.0.0",
     "rdf-utils-fs": "^2.1.0",
     "standard": "^16.0.3"
   },

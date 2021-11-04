@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for testcase in "01" "02" "03"
+for testcase in "01" "02" "03" "04"
 do
 
 actual="test/integration/$testcase/actual_output.nt"
@@ -24,6 +24,12 @@ if [[ "$testcase" == "03" ]]; then
     --variable="$actual" \
     --variable="mappingsDir=test/integration/03/mappings/*.json" \
     --pipeline=urn:pipeline:bar#Main
+fi
+
+if [[ "$testcase" == "04" ]]; then
+    node node_modules/.bin/barnard59 run test/integration/04/pipeline.ttl \
+    --pipeline http://example.com/pipelines/main \
+    --output "$actual"
 fi
 
 if cmp -s "$actual" "$expected"; then

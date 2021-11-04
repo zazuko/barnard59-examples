@@ -1,0 +1,52 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix schema: <http://schema.org/> .
+
+ex:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Person ;
+    sh:property [
+                    sh:path ex:ssn ;
+                    sh:maxCount 1 ;
+                    sh:datatype xsd:string ;
+                    sh:pattern "^\\d{3}-\\d{2}-\\d{4}$" ;
+                ] ;
+    sh:property [
+                    sh:path ex:worksFor ;
+                    sh:class ex:Company ;
+                    sh:nodeKind sh:IRI ;
+                ] ;
+    sh:property [
+                    sh:path ex:child ;
+                    sh:class ex:Person ;
+                    sh:nodeKind sh:IRI ;
+                ] ;
+    sh:property [
+                    rdfs:comment "A person's parents are represented via ex:child used in the inverse direction." ;
+                    sh:path [ sh:inversePath ex:child ] ;
+                    sh:name "parent" ;
+                    sh:maxCount 2 ;
+                ] ;
+    sh:property [
+                    sh:path schema:givenName ;
+                    sh:datatype xsd:string ;
+                    sh:name "given name" ;
+                ] ;
+    sh:property [
+                    sh:path schema:birthDate ;
+                    sh:lessThan schema:deathDate ;
+                    sh:maxCount 1 ;
+                ] ;
+    sh:property [
+                    sh:path schema:gender ;
+                    sh:in ( "female" "male" ) ;
+                ] ;
+    sh:property [
+                    sh:path schema:address ;
+                    sh:node schema:AddressShape ;
+                ] ;
+    sh:ignoredProperties ( rdf:type ) .
+
