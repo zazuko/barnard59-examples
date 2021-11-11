@@ -55,8 +55,7 @@ _:shacl-vars
     rdfs:comment       "Validates a RDF graph against a set of conditions specified in a SHACL document" ;
     code:implementedBy [ a         code:EcmaScriptModule ;
                          code:link <node:barnard59-validate-shacl/validate.js#validate> ] ;
-    code:arguments     [ code:name  "shaclStream" ;
-                         code:value <readShapes> ] .
+    code:arguments     (<readShapes>) .
 
 <flatten>
     a                  p:Step ;
