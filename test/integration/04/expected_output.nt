@@ -1,22 +1,3 @@
-<http://example.com/ns#Alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Alice> <http://example.com/ns#ssn> "987-65-4322" .
-<http://example.com/ns#Alice> <http://schema.org/name> "Alice" .
-<http://example.com/ns#Alice> <http://schema.org/name> "Alicy" .
-<http://example.com/ns#Bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Bob> <http://example.com/ns#ssn> "123-45-6789" .
-<http://example.com/ns#Freek> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Freek> <http://example.com/ns#ssn> "987-65-4329" .
-<http://example.com/ns#Alexander> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Alexander> <http://example.com/ns#school> <http://example.com/ns#TrinityAnglicanSchool> .
-<http://example.com/ns#Matthias> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Matthias> <http://example.com/ns#ssn> "123-45-6789" .
-<http://example.com/ns#JensAddress> <http://schema.org/streetAddress> "Krijgslaan" .
-<http://example.com/ns#JensAddress> <http://schema.org/postalCode> "9000"^^<http://www.w3.org/2001/XMLSchema#integer> .
-<http://example.com/ns#Ignace> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/ns#Person> .
-<http://example.com/ns#Ignace> <http://schema.org/givenName> "Ignace" .
-<http://example.com/ns#Ignace> <http://schema.org/familyName> "Van Landuyt" .
-<http://example.com/ns#Ignace> <http://schema.org/birthDate> "1950-07-07"^^<http://www.w3.org/2001/XMLSchema#date> .
-<http://example.com/ns#Ignace> <http://schema.org/deathDate> "1968-09-10"^^<http://www.w3.org/2001/XMLSchema#date> .
-<http://example.com/ns#Ignace> <http://schema.org/address> <http://example.com/ns#IgnacesAddress> .
-<http://example.com/ns#IgnacesAddress> <http://schema.org/streetAddress> "1600 Amphitheatre Pkway" .
-<http://example.com/ns#IgnacesAddress> <http://schema.org/postalCode> "94004"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://example.com/John-Doe> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+<https://example.com/John-Doe> <http://schema.org/age> "18"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://example.com/John-Doe> <http://schema.org/name> "John" .
