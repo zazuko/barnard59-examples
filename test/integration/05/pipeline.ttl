@@ -1,0 +1,58 @@
+@base         <http://example.com/pipelines/> .
+@prefix p:    <https://pipeline.described.at/> .
+@prefix code: <https://code.described.at/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+_:variables
+    p:variable [ a       p:Variable ;
+                 p:name  "inputDir" ;
+                 p:value "test/integration/05/data/*.ttl" ] .
+
+<main>
+    a           p:Pipeline, p:Readable ;
+    p:variables _:variables ;
+    p:steps     [ p:stepList ( <concatInputs> <serialize> ) ] .
+
+<concatInputs>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-base/concat.js#object> ;
+                         a         code:EcmaScriptModule ] ;
+    code:arguments     ( <processDirectory> ) .
+
+
+<processDirectory>
+    a       p:Pipeline, p:ReadableObjectMode ;
+    p:steps [ p:stepList ( <readInputFiles> <parseEachFile> ) ] .
+
+<readInputFiles>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-base/glob.js#default> ;
+                         a         code:EcmaScriptModule ] ;
+    code:arguments     [ code:name  "pattern" ;
+                         code:value "inputDir"^^p:VariableName ] .
+
+<parseEachFile>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-base/forEach.js#default> ;
+                         a         code:EcmaScriptModule ] ;
+    code:arguments     ( <parseFile> "file" ) .
+
+<parseFile>
+    a       p:Pipeline, p:ReadableObjectMode ;
+    p:steps [ p:stepList ( <readFile> <parse> ) ] .
+
+<readFile>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:fs#createReadStream> ;
+                         a         code:EcmaScriptModule ] ;
+    code:arguments     ( "${file}"^^code:EcmaScriptTemplateLiteral ) .
+
+<parse>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-formats/n3.js#parse> ;
+                         a         code:EcmaScriptModule ] .
+
+<serialize>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-formats/ntriples.js#serialize> ;
+                         a         code:EcmaScriptModule ] .

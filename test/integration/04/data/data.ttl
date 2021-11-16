@@ -1,45 +1,7 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix sh: <http://www.w3.org/ns/shacl#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix ex: <http://example.com/ns#>.
-@prefix schema: <http://schema.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-
-ex:Alice
-    a ex:Person ;
-    ex:ssn "987-65-4322" ;
-    <http://schema.org/name> "Alice", "Alicy" .
-
-ex:Bob
-    a ex:Person ;
-    ex:ssn "123-45-6789" ;
-    ex:ssn "123-45-6789" .
-
-ex:Freek
-    a ex:Person ;
-    ex:ssn "987-65-4329" .
-
-ex:Alexander
-    a ex:Person ;
-    ex:school ex:TrinityAnglicanSchool .
-
-ex:Matthias
-    a ex:Person ;
-    ex:ssn "123-45-6789" .
-
-ex:JensAddress
-    schema:streetAddress "Krijgslaan" ;
-    schema:postalCode 9000 .
-
-ex:Ignace
-    a ex:Person ;
-    schema:givenName "Ignace" ;
-    schema:familyName "Van Landuyt" ;
-    schema:birthDate "1950-07-07"^^xsd:date ;
-    schema:deathDate "1968-09-10"^^xsd:date ;
-    schema:address ex:IgnacesAddress .
-
-ex:IgnacesAddress
-    schema:streetAddress "1600 Amphitheatre Pkway" ;
-    schema:postalCode 94004 .
+<https://example.com/John-Doe> a <http://schema.org/Person> ;
+                               <http://schema.org/age> 18 ;
+                               <http://schema.org/name> "John" .

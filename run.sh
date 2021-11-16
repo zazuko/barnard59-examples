@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for testcase in "01" "02" "03" "04"
+for testcase in "01" "02" "03" "04" "05"
 do
 
 actual="test/integration/$testcase/actual_output.nt"
@@ -28,6 +28,12 @@ fi
 
 if [[ "$testcase" == "04" ]]; then
     node node_modules/.bin/barnard59 run test/integration/04/pipeline.ttl \
+    --pipeline http://example.com/pipelines/main \
+    --output "$actual"
+fi
+
+if [[ "$testcase" == "05" ]]; then
+    node node_modules/.bin/barnard59 run test/integration/05/pipeline.ttl \
     --pipeline http://example.com/pipelines/main \
     --output "$actual"
 fi
