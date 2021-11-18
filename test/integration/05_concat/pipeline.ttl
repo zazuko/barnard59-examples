@@ -6,7 +6,7 @@
 _:variables
     p:variable [ a       p:Variable ;
                  p:name  "inputDir" ;
-                 p:value "test/integration/05/data/*.ttl" ] .
+                 p:value "test/integration/05_concat/data/*.ttl" ] .
 
 <main>
     a           p:Pipeline, p:Readable ;

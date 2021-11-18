@@ -6,12 +6,12 @@
 _:dataset-vars
     p:variable [ a       p:Variable ;
                  p:name  "inputFile" ;
-                 p:value "test/integration/04/data/data.ttl" ] .
+                 p:value "test/integration/04_validate_shacl/data/data.ttl" ] .
 
 _:shacl-vars
     p:variable [ a       p:Variable ;
                  p:name  "inputFile" ;
-                 p:value "test/integration/04/data/shape.ttl" ] .
+                 p:value "test/integration/04_validate_shacl/data/shape.ttl" ] .
 
 <main>
     a       p:Pipeline, p:Readable ;

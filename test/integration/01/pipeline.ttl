@@ -9,7 +9,7 @@ _:metadata-vars p:variable
   [ a p:Variable; p:name "inputFile"; p:value "test/integration/01/input/metadata.ttl" ] .
 
 
-<mainCreateFile> a p:Pipeline, p:Readable ;
+<http://example.com/pipelines/main> a p:Pipeline, p:Readable ;
   p:steps [
     p:stepList (<concatStreams><serialize>)
   ].
