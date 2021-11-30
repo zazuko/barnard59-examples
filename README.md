@@ -17,7 +17,7 @@ Integration tests cover the following operations:
 * `node:barnard59-base#glob`
 * `node:barnard59-base#filter`
 * `node:barnard59-base#forEach`
-* `node:barnard59-validate-shacl/validate.js#validate`
+* `node:barnard59-validate-shacl/validate.js#shacl`
 
 ### Not tested
 The following operations are frequently used, but not covered:
