@@ -3,7 +3,18 @@
 @prefix code: <https://code.described.at/> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-<#Main>
+
+<inputCSV>
+    :variable [ a  :Variable ;
+                :name  "csvw" ;
+                :value "test/integration/03/input/isil_lindas.csv" ] .
+
+<mappings>
+    :variable [ a  :Variable ;
+                 :name  "glob" ;
+                 :value "test/integration/03/mappings/*.json" ] .
+
+<http://example.com/pipelines/main>
     a      :Pipeline ;
     :steps [ :stepList ( <#mergeInputs> <#streamOutputStep> ) ] .
 
@@ -23,18 +34,12 @@
     code:arguments     ( <#StreamOutput> ) .
 
 <#StreamOutput>
-    :steps     [ :stepList ( _:serialize _:save ) ] .
+    :steps     [ :stepList ( _:serialize ) ] .
 
 _:serialize
     a                  :Step ;
     code:implementedBy [ code:link <node:barnard59-formats/ntriples.js#serialize> ;
                          a         code:EcmaScriptModule ] .
-
-_:save
-    a                  :Step ;
-    code:implementedBy [ code:link <node:fs#createWriteStream> ;
-                         a         code:EcmaScriptModule ] ;
-    code:arguments     ( "test/integration/03/actual_output.nt"^^:VariableName ) .
 
 # ------------------------------
 #
@@ -46,6 +51,7 @@ _:save
 
 <#TransformFiles>
     a      :Pipeline, :ReadableObjectMode ;
+    :variables <mappings> ;
     :steps [ :stepList ( <#loadMappings> <#doTransform> ) ] .
 
 <#loadMappings>
@@ -53,7 +59,7 @@ _:save
     code:implementedBy [ code:link <node:barnard59-base/glob.js#default> ;
                          a         code:EcmaScriptModule ] ;
     code:arguments     [ code:name  "pattern" ;
-                         code:value "mappingsDir"^^:VariableName ] .
+                         code:value "glob"^^:VariableName ] .
 
 <#doTransform>
     a                  :Step ;
@@ -74,6 +80,7 @@ _:save
 
 <#LoadCsv>
     a      :Pipeline, :ReadableObjectMode ;
+    :variables <inputCSV> ;
     :steps [ :stepList ( _:openCsvFromFilesystem ) ] .
 
 _:openCsvFromFilesystem
@@ -81,7 +88,6 @@ _:openCsvFromFilesystem
     code:implementedBy [ code:link <file:lib/csv.js#openFromCsvw> ;
                          a         code:EcmaScriptModule ] ;
     code:arguments     ( "${csvw}"^^code:EcmaScriptTemplateLiteral ) .
-
 
 <#loadCsvStep>
     a                  :Step ;

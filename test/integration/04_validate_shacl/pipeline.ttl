@@ -1,0 +1,69 @@
+@base         <http://example.com/pipelines/> .
+@prefix p:    <https://pipeline.described.at/> .
+@prefix code: <https://code.described.at/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+_:dataset-vars
+    p:variable [ a       p:Variable ;
+                 p:name  "inputFile" ;
+                 p:value "test/integration/04_validate_shacl/data/data.ttl" ] .
+
+_:shacl-vars
+    p:variable [ a       p:Variable ;
+                 p:name  "inputFile" ;
+                 p:value "test/integration/04_validate_shacl/data/shape.ttl" ] .
+
+<main>
+    a       p:Pipeline, p:Readable ;
+    p:steps [ p:stepList ( <readData>
+                           <groupByPerson> <validatePerson> <flatten>
+                           <serialize> ) ] .
+
+
+<readFile>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:fs#createReadStream> ;
+                         a         code:EcmaScriptModule ] ;
+    code:arguments     ( "inputFile"^^p:VariableName ) .
+
+<parseTurtle>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-formats/n3.js#parse> ;
+                         a         code:EcmaScriptModule ] .
+
+<readData>
+    a           p:Pipeline, p:ReadableObjectMode ;
+    p:variables _:dataset-vars ;
+    p:steps     [ p:stepList ( <readFile> <parseTurtle> ) ] .
+
+<readShapes>
+    a           p:Pipeline, p:ReadableObjectMode ;
+    p:variables _:shacl-vars ;
+    p:steps     [ p:stepList ( <readFile> <parseTurtle> ) ] .
+
+
+<groupByPerson>
+    a                  p:Step ;
+    rdfs:label         "Groups the quads in chunks, when the type of consecutive quads is the same" ;
+    code:implementedBy [ a         code:EcmaScriptModule ;
+                         code:link <file:lib/chunks.js#byType> ] ;
+    code:arguments     ( "http://example.com/ns#Person"^^code:EcmaScriptTemplateLiteral ) .
+
+<validatePerson>
+    a                  p:Step ;
+    rdfs:label         "validate rdf" ;
+    rdfs:comment       "Validates a RDF graph against a set of conditions specified in a SHACL document" ;
+    code:implementedBy [ a         code:EcmaScriptModule ;
+                         code:link <node:barnard59-validate-shacl/validate.js#shacl> ] ;
+    code:arguments     (<readShapes>) .
+
+<flatten>
+    a                  p:Step ;
+    rdfs:label         "Flattens the quad chunks into a stream" ;
+    code:implementedBy [ code:link <node:barnard59-base#flatten> ;
+                         a         code:EcmaScriptModule ] .
+
+<serialize>
+    a                  p:Step ;
+    code:implementedBy [ code:link <node:barnard59-formats/ntriples.js#serialize> ;
+                         a         code:EcmaScriptModule ] .

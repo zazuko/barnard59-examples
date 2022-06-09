@@ -1,37 +1,35 @@
 #!/bin/bash
 
-for testcase in "01" "02" "03"
-do
+for d in test/integration/*/ ; do
 
-actual="test/integration/$testcase/actual_output.nt"
-expected="test/integration/$testcase/expected_output.nt"
+    pipeline="${d}pipeline.ttl"
+    actual="${d}actual_output.nt"
+    expected="${d}expected_output.nt"
 
-if [[ "$testcase" == "01" ]]; then
-    node node_modules/.bin/barnard59 run test/integration/01/pipeline.ttl \
-    --pipeline http://your-domain.ld.admin.ch/pipeline/mainCreateFile \
-    --output "$actual"
-fi
+    if test -f "$pipeline"; then
 
-if [[ "$testcase" == "02" ]]; then
-    node node_modules/.bin/barnard59 run test/integration/02/pipeline.ttl \
-    --pipeline http://ld.admin.ch/pipeline/metadata/mainCreateFile \
-    --output "$actual"
-fi
+      if test -f "$actual"; then
+        rm $actual
+      fi
 
-if [[ "$testcase" == "03" ]]; then
-    node node_modules/.bin/barnard59 run test/integration/03/pipeline.ttl \
-    --variable="inputDir=test/integration/03/input" \
-    --variable="$actual" \
-    --variable="mappingsDir=test/integration/03/mappings/*.json" \
-    --pipeline=urn:pipeline:bar#Main
-fi
+      node node_modules/.bin/barnard59 run "$pipeline" \
+        --pipeline http://example.com/pipelines/main \
+        --output "$actual"
 
-if cmp -s "$actual" "$expected"; then
-    printf "Test $testcase passed\n"
-else
-    printf "Test $testcase failed\n"
-    printf 'The file "%s" is different than "%s"\n' "$actual" "$expected"
-    exit 1
-fi
+      if ! test -f "$actual"; then
+        printf "[$d] $actual missing.  ❌ fail\n"
+        exit 1
+      fi
 
+      if test -f "$expected"; then
+        if cmp -s "$actual" "$expected"; then
+          printf "[$d] ✅ pass\n"
+        else
+          printf "[$d] The file $actual is different than $expected. ❌ fail\n"
+          exit 1
+        fi
+      else
+        echo "WARNING: no $expected found."
+      fi
+    fi
 done

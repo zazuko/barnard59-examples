@@ -4,8 +4,9 @@ Integration tests for barnard59 universe
 
 To run the integration tests, run:
 `./run.sh`
+
 ### Tested:
-Inttegration tests cover the following operations:
+Integration tests cover the following operations:
 * `node:fs#createReadStream`
 * `node:fs#createWriteStream`
 * `node:barnard59-formats#ntriples.serialize`
@@ -16,7 +17,7 @@ Inttegration tests cover the following operations:
 * `node:barnard59-base#glob`
 * `node:barnard59-base#filter`
 * `node:barnard59-base#forEach`
-
+* `node:barnard59-validate-shacl/validate.js#shacl`
 
 ### Not tested
 The following operations are frequently used, but not covered:
